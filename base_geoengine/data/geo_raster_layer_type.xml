@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Swisstopo map -->
+  <record id="geo_layer_type_swisstopo_color" model="geoengine.raster.layer.type">
+    <field name="service">swisstopo</field>
+    <field name="name">Color map</field>
+    <field name="code">ch.swisstopo.pixelkarte-farbe</field>
+  </record>
+  <record id="geo_layer_type_swisstopo_aerial" model="geoengine.raster.layer.type">
+    <field name="service">swisstopo</field>
+    <field name="name">Aerial imagery</field>
+    <field name="code">ch.swisstopo.swissimage</field>
+  </record>
+
+  <!-- Lausanne map -->
+  <record id="geo_layer_type_lausanne_bdcad_gris" model="geoengine.raster.layer.type">
+    <field name="service">map.lausanne.ch</field>
+    <field name="name">Fond cadastral</field>
+    <field name="code">fonds_geo_osm_bdcad_gris</field>
+  </record>
+  <record id="geo_layer_type_lausanne_bdcad_couleur" model="geoengine.raster.layer.type">
+    <field name="service">map.lausanne.ch</field>
+    <field name="name">Plan ville</field>
+    <field name="code">fonds_geo_osm_bdcad_couleur</field>
+  </record>
+
+  <!-- Google layers -->
+  <record id="geo_layer_type_g_normal" model="geoengine.raster.layer.type">
+    <field name="service">google</field>
+    <field name="name">Google normal map</field>
+    <field name="code">G_NORMAL_MAP</field>
+  </record>
+  <record id="geo_layer_type_g_sat" model="geoengine.raster.layer.type">
+    <field name="service">google</field>
+    <field name="name">Google satellite map</field>
+    <field name="code">G_SATELLITE_MAP</field>
+  </record>
+  <record id="geo_layer_type_g_hybrid" model="geoengine.raster.layer.type">
+    <field name="service">google</field>
+    <field name="name">Google Hybrid map</field>
+    <field name="code">G_HYBRID_MAP</field>
+  </record>
+  <record id="geo_layer_type_g_physical" model="geoengine.raster.layer.type">
+    <field name="service">google</field>
+    <field name="name">Google Physical map</field>
+    <field name="code">G_PHYSICAL_MAP</field>
+  </record>
+</odoo>
+

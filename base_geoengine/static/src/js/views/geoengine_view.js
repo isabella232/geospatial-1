@@ -434,6 +434,10 @@ var GeoengineView = View.extend(geoengine_common.GeoengineMixin, {
             map = new OpenLayers.Map("the_map", {
                 layers: this.createBackgroundLayers(this.fields_view.geoengine_layers.backgrounds),
                 displayProjection: new OpenLayers.Projection("EPSG:4326"), // Fred should manage projection here
+                //displayProjection: new OpenLayers.Projection("EPSG:21781"), // Fred should manage projection here
+                // XXX
+                extent: [535000, 151000, 541000, 158700],
+                restrictedExtent: [523000, 146000, 556000, 166000],
                 theme: null,
                 controls: [
                     new OpenLayers.Control.KeyboardDefaults(),

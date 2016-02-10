@@ -140,7 +140,9 @@ var FieldGeoEngineEditMap = common.AbstractField.extend(geoengine_common.Geoengi
         if (_.isNull(this.map)){
             this.map = new OpenLayers.Map({
                 theme: null,
-                layers: this.layers[0]
+                layers: this.layers[0],
+                extent: [535000, 151000, 541000, 158700],
+                restrictedExtent: [523000, 146000, 556000, 166000],
             });
             this.map.addLayer(this.layers[1]);
             this.modify_control = new OpenLayers.Control.ModifyFeature(this.layers[1]);
