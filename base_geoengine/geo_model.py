@@ -178,7 +178,8 @@ class GeoModel(models.BaseModel):
         res['edit_raster'] = raster_obj.read(
             cursor, uid, raster_id[0], context=context)
         res['geo_type'] = field.geo_type
-        res['srid'] = field.srid
+        # get srid from _columns as srid is wrong in _fields
+        res['srid'] = self._columns.get(column)._srid
         res['default_extent'] = view.default_extent
         return res
 
