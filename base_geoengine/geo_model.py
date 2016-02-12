@@ -129,9 +129,11 @@ class GeoModel(models.BaseModel):
             res['geoengine_layers'] = {}
             res['geoengine_layers']['backgrounds'] = []
             res['geoengine_layers']['actives'] = []
-            default_extent = (view.default_extent or DEFAULT_EXTENT).split(',')
-            res['geoengine_layers']['default_extent'] = [
-                float(x) for x in default_extent]
+            res['geoengine_layers']['projection'] = view.projection
+            restricted_extent = view.restricted_extent
+            res['geoengine_layers']['restricted_extent'] = restricted_extent
+            default_extent = view.default_extent or DEFAULT_EXTENT
+            res['geoengine_layers']['default_extent'] = default_extent
             # TODO find why context in read does not work with webclient
             for layer in view.raster_layer_ids:
                 layer_dict = raster_obj.read(cursor, uid, layer.id)
@@ -180,6 +182,8 @@ class GeoModel(models.BaseModel):
         res['geo_type'] = field.geo_type
         # get srid from _columns as srid is wrong in _fields
         res['srid'] = self._columns.get(column)._srid
+        res['projection'] = view.projection
+        res['restricted_extent'] = view.restricted_extent
         res['default_extent'] = view.default_extent
         return res
 
