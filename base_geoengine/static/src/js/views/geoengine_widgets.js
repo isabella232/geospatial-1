@@ -71,7 +71,7 @@ var FieldGeoEngineEditMap = common.AbstractField.extend(geoengine_common.Geoengi
     },
 
     add_tab_listener: function() {
-        tab_href = $('#' + this.name).closest('div[role="tabpanel"]')
+        tab_href = this.$el.closest('div[role="tabpanel"]')
         if (tab_href.length == 0) {
             return;
         }
@@ -137,12 +137,14 @@ var FieldGeoEngineEditMap = common.AbstractField.extend(geoengine_common.Geoengi
     },
 
     on_mode_change: function() {
-        this.render_map();
+        if (this.$el.is(':visible')){
+            this.render_map();
+        }
         this.$el.toggle(!this.invisible);
     },
 
     render_map: function() {
-        if (_.isNull(this.map)){
+        if (!this.map) {
             map_opt = {
                 theme: null,
                 layers: this.layers[0],
@@ -193,7 +195,7 @@ var FieldGeoEngineEditMap = common.AbstractField.extend(geoengine_common.Geoengi
                 internalProjection: this.map.getProjection(),
                 externalProjection: 'EPSG:' + this.srid
             });
-            this.map.render(this.name);
+            this.map.render(this.$el[0]);
             $(document).trigger('FieldGeoEngineEditMap:ready', [this.map]);
             this.set_value(this.value);
         }
