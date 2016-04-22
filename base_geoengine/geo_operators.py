@@ -242,7 +242,7 @@ class GeoOperator(object):
                                           op='ST_Within')
 
     def get_geo_contains_sql(self, table, col, value, rel_col=None,
-                           rel_model=None):
+                             rel_model=None):
         """Returns raw sql for geo_contains operator
         (used for spatial comparison)
         """

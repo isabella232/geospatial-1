@@ -3,7 +3,7 @@
  * Author B.Binet Copyright Camptocamp SA
  * Contributor N. Bessi Copyright Camptocamp SA
  * Contributor Laurent Mignon 2015 Acsone SA/NV
- * Contributor Yannick Vaucher 2015 Camptocamp SA
+ * Contributor Yannick Vaucher 2015-2016 Camptocamp SA
  * License in __openerp__.py at root level of the module
  *---------------------------------------------------------
 */

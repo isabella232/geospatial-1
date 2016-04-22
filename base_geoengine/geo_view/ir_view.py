@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Author: Nicolas Bessi
-#    Copyright 2011-2012 Camptocamp SA
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2011-2012 Nicolas Bessi (Camptocamp SA)
+# © 2016 Yannick Vaucher (Camptocamp SA)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from openerp import fields, models
 from openerp import api
 
@@ -29,7 +13,7 @@ class IrUIView(models.Model):
     _inherit = 'ir.ui.view'
 
     @api.model
-    def _setup_fields(self):
+    def _setup_fields(self, partial):
         """Hack due since the field 'type' is not defined with the new api.
         """
         cls = type(self)
@@ -38,7 +22,7 @@ class IrUIView(models.Model):
             tmp = list(type_selection)
             tmp.append(GEO_VIEW)
             cls._fields['type'].selection = tuple(set(tmp))
-        super(IrUIView, self)._setup_fields()
+        super(IrUIView, self)._setup_fields(partial)
 
     raster_layer_ids = fields.One2many(
         'geoengine.raster.layer', 'view_id', 'Raster layers', required=False)

@@ -3,7 +3,7 @@
  * Author B.Binet Copyright Camptocamp SA
  * Contributor N. Bessi Copyright Camptocamp SA
  * Contributor Laurent Mignon 2015 Acsone SA/NV
- * Contributor Yannick Vaucher 2015 Camptocamp SA
+ * Contributor Yannick Vaucher 2015-2016 Camptocamp SA
  * License in __openerp__.py at root level of the module
  *---------------------------------------------------------
 */
@@ -81,31 +81,6 @@ var GeoengineMixin = {
                                 numZoomLevels: 17,
                                 attribution: "<a href='http://www.camptocamp.com' style='color:orange;font-weight:bold;background-color:#FFFFFF' target='_blank'>Powered by Camptocamp</a>\
                                           using <a href='http://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> raster"
-                            })
-                        );
-                        break;
-                    case "swisstopo":
-                        var resolutions = [4000, 3750, 3500, 3250, 3000, 2750, 2500, 2250, 2000, 1750, 1500, 1250, 1000, 750, 650, 500, 250, 100, 50, 20, 10, 5, 2.5];
-                        if (l.swisstopo_type == 'ch.swisstopo.swissimage') {
-                            resolutions.push(2, 1.5, 1, 0.5);
-                        }
-                        out.push(
-                            new OpenLayers.Layer.WMTS({
-                                name: l.name,
-                                layer: l.swisstopo_type,
-                                formatSuffix: 'jpeg',
-                                url: ['https://wmts0.geo.admin.ch/', 'https://wmts1.geo.admin.ch/', 'https://wmts2.geo.admin.ch/'],
-                                projection: 'EPSG:21781',
-                                units: 'm',
-                                resolutions: resolutions,
-                                maxExtent: [420000, 30000, 900000, 350000],
-                                requestEncoding: 'REST',
-                                matrixSet: '21781',
-                                style: 'default',
-                                dimensions: ['TIME'],
-                                params: {time: l.swisstopo_time},
-                                attribution: "<a href='http://www.camptocamp.com' style='color:orange;font-weight:bold;background-color:#FFFFFF' target='_blank'>Powered by Camptocamp</a>\
-                                          data <a href='http://www.swisstopo.admin.ch/' target='_blank'>&copy; swisstopo</a>"
                             })
                         );
                         break;
