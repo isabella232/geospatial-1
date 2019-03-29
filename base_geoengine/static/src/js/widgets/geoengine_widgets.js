@@ -91,7 +91,9 @@ odoo.define('base_geoengine.geoengine_widgets', function (require) {
             this.rasterLayers = this.bgLayers.create([
                 field_infos.edit_raster,
             ]);
-            this.rasterLayers[0].isBaseLayer = true;
+            if (this.rasterLayers.length) {
+                this.rasterLayers[0].isBaseLayer = true;
+            }
         },
 
         _addTabListener: function () {

@@ -16,6 +16,8 @@
                        colspan="4">
                   <p colspan="2">See <a href="https://api3.geo.admin.ch/services/sdiservices.html#wmts" target="_blank">GeoAdmin API documentation</a> for registration info and available layers.</p>
                   <field name="layername"/>
+                  <field name="time"/>
+                  <field name="projection"/>
                   <field name="format_suffix"/>
                 </group>
             </xpath>
