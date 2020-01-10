@@ -28,8 +28,6 @@ class TestBaseGeoengine(common.SavepointCase):
         super().setUp()
 
         # mock commit since it"s called in the _auto_init method
-        self.cr.commit = mock.MagicMock()
-
         self.dummy = self.env['test.dummy'].create({
             'name': 'test dummy',
             'geo_multipolygon': wktloads(MULTIPOLYGON_1)
@@ -121,8 +119,10 @@ class TestBaseGeoengine(common.SavepointCase):
     def test_search_geo_contains(self):
         _logger.info("Tests search geo_contains")
         self.dummy.write({
-            'geo_multipolygon': 'MULTIPOLYGON (((0 0, 2 0, 2 2, 0 2, 0 0)))',
+            'geo_multipolygon': wktloads('MULTIPOLYGON (((0 0, 2 0, 2 2, 0 2, 0 0)))'),
         })
+        self.dummy.flush()
+        self.dummy.invalidate_cache()
         ids = self.dummy.geo_search(
             domain=[],
             geo_domain=[
@@ -184,7 +184,7 @@ class TestBaseGeoengine(common.SavepointCase):
         geo_point_2 = Point(1.0, 1.0)
 
         self.dummy.geo_point = geo_point_1
-        self.assertEqual(self.dummy.geo_point, geo_point_1)
+        self.assertTrue(self.dummy.geo_point.equals(geo_point_1))
         self.assertTrue(isinstance(self.dummy.geo_point, Point))
 
         geo_point_read = self.dummy.read(['geo_point'])[0]
@@ -194,7 +194,7 @@ class TestBaseGeoengine(common.SavepointCase):
         self.dummy.write({
             'geo_point': geojson.dumps(geo_point_2),
         })
-        self.assertEqual(self.dummy.geo_point, geo_point_2)
+        self.assertTrue(self.dummy.geo_point.equals(geo_point_2))
 
     def test_create_line_from_points(self):
         geo_point_1 = Point(0.0, 0.0)
@@ -215,5 +215,5 @@ class TestBaseGeoengine(common.SavepointCase):
             'geo_line': wktloads(GEOLINE_1)
         })
         dummy.write({
-            'geo_multipolygon': 'LINE (0 0, 2 0, 2 2, 0 2, 0 0)',
+            'geo_line': wktloads('LINESTRING (0 0, 2 0, 2 2, 0 2, 0 0)'),
         })
