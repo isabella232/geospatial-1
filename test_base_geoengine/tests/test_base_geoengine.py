@@ -6,6 +6,7 @@ import logging
 from io import StringIO
 
 import geojson
+import mock
 import simplejson
 from shapely.geometry import MultiPolygon, Polygon
 from shapely.geometry.linestring import LineString
@@ -29,7 +30,8 @@ _logger = logging.getLogger(__name__)
 class TestBaseGeoengine(common.SavepointCase):
     def setUp(self):
         super().setUp()
-
+        # mock commit since it"s called in the _auto_init method
+        self.cr.commit = mock.MagicMock()
         self.dummy = self.env["test.dummy"].create(
             {"name": "test dummy", "geo_multipolygon": wktloads(MULTIPOLYGON_1)}
         )
