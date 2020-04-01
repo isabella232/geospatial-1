@@ -39,14 +39,13 @@ class ResPartner(geo_model.GeoModel):
 
     _inherit = "res.partner"
 
-    @api.multi
     def geocode_address(self):
         """Get the latitude and longitude by requesting the "Nominatim"
         search engine from "openstreetmap". See:
         https://nominatim.org/release-docs/latest/api/Overview/
         """
         url = "http://nominatim.openstreetmap.org/search"
-        headers = {"User-Agent": "Odoobot/11.0.1.0.0 (OCA-geospatial)"}
+        headers = {"User-Agent": "Odoobot/13.0.1.0.0 (OCA-geospatial)"}
 
         for partner in self:
             pay_load = {
@@ -65,7 +64,7 @@ class ResPartner(geo_model.GeoModel):
                 request_result.raise_for_status()
             except Exception as e:
                 _logger.exception("Geocoding error")
-                raise exceptions.Warning(_("Geocoding error. \n %s") % e.message)
+                raise exceptions.Warning(_("Geocoding error. \n %s") % str(e))
             vals = request_result.json()
             vals = vals and vals[0] or {}
             partner.write(
@@ -76,12 +75,10 @@ class ResPartner(geo_model.GeoModel):
                 }
             )
 
-    @api.multi
     def geo_localize(self):
         self.geocode_address()
         return True
 
-    @api.multi
     @api.depends("partner_latitude", "partner_longitude")
     def _get_geo_point(self):
         """
