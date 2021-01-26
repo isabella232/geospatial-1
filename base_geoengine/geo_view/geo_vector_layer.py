@@ -1,5 +1,6 @@
 # Copyright 2011-2012 Nicolas Bessi (Camptocamp SA)
-# Copyright 2016 Yannick Vaucher (Camptocamp SA)
+# Copyright 2016-2021 Yannick Vaucher (Camptocamp SA)
+# Copyright 2021 Stephane Mangin (Camptocamp SA)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import fields, models
 
@@ -53,6 +54,9 @@ class GeoVectorLayer(models.Model):
     attribute_field_id = fields.Many2one(
         "ir.model.fields", "attribute field", domain=[("ttype", "in", SUPPORTED_ATT)]
     )
+    label_field_id = fields.Many2one(
+        'ir.model.fields', 'label field',
+        domain=[('ttype', 'in', SUPPORTED_ATT)])
     geo_field_id = fields.Many2one(
         "ir.model.fields",
         "Geo field",

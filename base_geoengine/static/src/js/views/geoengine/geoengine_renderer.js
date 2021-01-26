@@ -289,7 +289,7 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                 });
 
                 if (cfg.display_polygon_labels === true) {
-                    attributes.label = item[cfg.attribute_field_id[1]];
+                    attributes.label = item.data[cfg.label_field_id[1]];
                 } else {
                     attributes.label = '';
                 }
@@ -317,6 +317,7 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                 title: cfg.name,
                 active_on_startup: cfg.active_on_startup,
                 style: styleInfo.style,
+                declutter: true,
             });
             lv.on('change:visible', function () {
                 if (lv.getVisible()) {
@@ -339,6 +340,24 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                 values.push(item.data[indicator]);
             });
             return values;
+        },
+
+        _createTextStyle: function(feature) {
+            var label_text = feature.values_.attributes.label;
+            if (label_text === false) {
+                label_text = '';
+            }
+            return new ol.style.Text({
+                text: label_text,
+                fill: new ol.style.Fill({
+                    color: '#000000',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#FFFFFF',
+                    width: 5,
+                }),
+                overflow: true,
+            });
         },
 
         _styleVectorLayerColored: function (cfg, data) {
@@ -405,6 +424,7 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                         }),
                         fill: fill,
                         stroke: stroke,
+                        text: '',
                     }),
                 ];
                 styles_map[color] = styles;
@@ -418,7 +438,9 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                 style: function (feature) {
                     var value = feature.get('attributes')[indicator];
                     var color_idx = this._getClass(value, vals);
-                    return styles_map[colors[color_idx]];
+                    var styles = styles_map[colors[color_idx]];
+                    styles[0].setText(this._createTextStyle(feature))
+                    return styles;
                 }.bind(this),
                 legend: legend,
             };
@@ -460,6 +482,7 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                         }),
                         fill: fill,
                         stroke: stroke,
+                        text: '',
                     }),
                 ];
                 styles_map[value] = styles;
@@ -468,8 +491,10 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
             return {
                 style: function (feature) {
                     var value = feature.get('attributes')[indicator];
-                    return styles_map[value];
-                },
+                    var styles = styles_map[value]
+                    styles[0].setText(this._createTextStyle(feature))
+                    return styles;
+                }.bind(this),
                 legend : '',
             };
         },
@@ -506,18 +531,14 @@ odoo.define('base_geoengine.GeoengineRenderer', function (require) {
                     }),
                     fill: fill,
                     stroke: stroke,
-                    text: olStyleText,
+                    text: '',
                 }),
             ];
             return {
                 style: function (feature) {
-                    var label_text = feature.values_.attributes.label;
-                    if (label_text === false) {
-                        label_text = '';
-                    }
-                    styles[0].text_.text_ = label_text;
+                    styles[0].setText(this._createTextStyle(feature));
                     return styles;
-                },
+                }.bind(this),
                 legend: '',
             };
         },
